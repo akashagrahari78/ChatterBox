@@ -6,13 +6,15 @@ import SignUp from './pages/Signup'
 import { ToastContainer, toast } from 'react-toastify';
 import LeftSidebar from './components/LeftSidebar'
 import MainChatArea from './components/MainChatArea'
+import RightSidebar from './components/RightSidebar'
+import UserChatSidebar from './components/UserChatSidebar'
 
 
 const App = () => {
   return (
     <div>
       <ToastContainer/>
-      <Navbar/>
+      {/* <Navbar/> */}
       <Routes>
     <Route path='/login' element = {<Login/>} />
     <Route path='/signup' element = {<SignUp/>} />
@@ -20,6 +22,8 @@ const App = () => {
         <div className="flex ">
           <LeftSidebar />
           <MainChatArea />
+          {/* <RightSidebar />  */}
+          <UserChatSidebar/>
         </div>
       } />
       </Routes>

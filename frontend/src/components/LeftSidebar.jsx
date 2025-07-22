@@ -65,7 +65,7 @@ const LeftSidebar = () => {
           onClick={() => toggleSection("dms")}
         />
 
-        {/* -----------------------------user messages------------------ */}
+        {/* -----------------------------user */}
         <AnimatePresence>
           {expandedSection.dms && (
             <motion.div
@@ -88,7 +88,7 @@ const LeftSidebar = () => {
         </AnimatePresence>
       </div>
 
-      {/*------------------------------- Group Chats Section */}
+      {/* Group Chats Section */}
       <div className="mt-4 px-4 pb-4">
         <ChatToggleButton
           icon={FiUsers}

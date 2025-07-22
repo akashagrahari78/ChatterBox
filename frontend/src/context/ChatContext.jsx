@@ -27,10 +27,99 @@ export const ChatContextProvider = (props)=>{
     { id: "ran", name: "Random", members: 8, unread: 0 },
     { id: "ra", name: "Random", members: 8, unread: 0 },
   ];
+
+  const messages = [
+      {
+        id: 1,
+        sender: "Alex Johnson",
+        text: "Hey team! How's the project going?",
+        time: "10:30 AM",
+        isMe: false,
+        read: true,
+      },
+      {
+        id: 2,
+        sender: "You",
+        text: "Going well! Just finished the UI components.",
+        time: "10:32 AM",
+        isMe: true,
+        read: true,
+      },
+      {
+        id: 3,
+        sender: "Alex Johnson",
+        text: "Hey team! How's the project going?",
+        time: "10:30 AM",
+        isMe: false,
+        read: true,
+      },
+      {
+        id: 4,
+        sender: "You",
+        text: "Going well! Just finished the UI components.",
+        time: "10:32 AM",
+        isMe: true,
+        read: true,
+      },
+      {
+        id: 5,
+        sender: "Alex Johnson",
+        text: "Hey team! How's the project going?",
+        time: "10:30 AM",
+        isMe: false,
+        read: true,
+      },
+      {
+        id: 6,
+        sender: "You",
+        text: "Going well! Just finished the UI components.",
+        time: "10:32 AM",
+        isMe: true,
+        read: true,
+      },
+      {
+        id: 7,
+        sender: "Alex Johnson",
+        text: "Hey team! How's the project going?",
+        time: "10:30 AM",
+        isMe: false,
+        read: true,
+      },
+      {
+        id: 8,
+        sender: "You",
+        text: "Going well! Just finished the UI components.",
+        time: "10:32 AM",
+        isMe: true,
+        read: true,
+      },
+      {
+        id: 9,
+        sender: "Alex Johnson",
+        text: "Hey team! How's the project going?",
+        time: "10:30 AM",
+        isMe: false,
+        read: true,
+      },
+      {
+        id: 10,
+        sender: "You",
+        text: "Going well! Just finished the UI components.",
+        time: "10:32 AM",
+        isMe: true,
+        read: true,
+      },
+      
+    ];
+      const sharedMedia = [
+    { id: 1, type: "image", preview: "photo1.jpg", date: "Today, 10:30 AM" },
+    { id: 2, type: "file", name: "document.pdf", date: "Yesterday" }
+  ];
+
     const navigate = useNavigate();
-    const value = {
-        
-        directMessages,groupChats
+    const value = {  
+      directMessages,groupChats, messages,navigate, sharedMedia
+
     }
 
     return (

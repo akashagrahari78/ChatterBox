@@ -1,31 +1,17 @@
 import { motion, AnimatePresence } from "framer-motion";
+import { useContext } from "react";
 import { FiPaperclip, FiSmile, FiMoreVertical, FiSend } from "react-icons/fi";
+import { ChatContext } from "../context/ChatContext";
 
 const MainChatArea = ({ activeChat }) => {
    
-    const messages = [
-      {
-        id: 1,
-        sender: "Alex Johnson",
-        text: "Hey team! How's the project going?",
-        time: "10:30 AM",
-        isMe: false,
-        read: true,
-      },
-      {
-        id: 2,
-        sender: "You",
-        text: "Going well! Just finished the UI components.",
-        time: "10:32 AM",
-        isMe: true,
-        read: true,
-      },
-    ];
+     const {messages} = useContext(ChatContext)
 
   return (
     <div className="flex-1 flex flex-col bg-white">
       {/* Chat Header */}
-      <div className="border-b h-[73px] border-gray-200 p-4 flex justify-between items-center">
+  
+      <div className="border-b w-full  bg-white fixed h-[73px] border-gray-200 p-4 flex justify-between items-center">
         <div>
           <h2 className="font-semibold text-lg">Alex Johnson</h2>
          </div>
@@ -35,7 +21,7 @@ const MainChatArea = ({ activeChat }) => {
       </div>
 
       {/* Messages Container */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-3">
+      <div className="flex-1 overflow-y-auto p-4 space-y-3 mt-20">
         <AnimatePresence>
           {messages.map((msg) => (
             <motion.div
@@ -74,8 +60,8 @@ const MainChatArea = ({ activeChat }) => {
         </AnimatePresence>
       </div>
 
-      {/* Message Input */}
-      <div className="border-t border-gray-200 p-4">
+      {/*-------------------------------- Message Input with fix input box in the bottom ------------------ */}
+      <div className="border-t bg-white bottom-0 fixed border-gray-200 p-4 w-full">
         <div className="flex items-center bg-gray-50 rounded-full px-4">
           <button className="p-2 text-gray-500 hover:text-indigo-600">
             <FiPaperclip />
