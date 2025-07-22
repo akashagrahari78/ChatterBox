@@ -1,15 +1,21 @@
 import React from 'react'
 import Navbar from './components/Navbar'
 import { Routes,Route } from 'react-router-dom'
-import AuthForm from './components/AuthForm'
+import Login from './pages/Login'
+import SignUp from './pages/Signup'
+import { ToastContainer, toast } from 'react-toastify';
+import LeftSidebar from './components/LeftSidebar'
+
 
 const App = () => {
   return (
     <div>
+      <ToastContainer/>
       <Navbar/>
       <Routes>
-        <Route path="/login" element={<AuthForm  />} />
-          <Route path="/signup" element={<AuthForm  />} />
+    <Route path='/' element = { <LeftSidebar/>} />
+    <Route path='/login' element = {<Login/>} />
+    <Route path='/signup' element = {<SignUp/>} />
       </Routes>
     </div>
   )
