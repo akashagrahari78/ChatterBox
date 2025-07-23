@@ -1,8 +1,7 @@
-import { FiHash } from "react-icons/fi";
+import React from 'react'
 
-
-const UserGroupChat = ({ 
-  group, 
+const User = ({ 
+  message, 
   isActive, 
   onClick 
 }) => (
@@ -13,20 +12,20 @@ const UserGroupChat = ({
     }`}
   >
     <div className="w-8 h-8 rounded-full bg-indigo-100 mr-3 flex items-center justify-center text-indigo-600">
-      <FiHash size={14} />
+      {message.name.charAt(0)}
     </div>
     <div className="flex-1 min-w-0">
-      <p className="truncate font-medium">{group.name}</p>
-      <p className="text-xs text-gray-500">
-        {group.members} members
+      <p className="truncate font-medium">{message.name}</p>
+      <p className="text-xs text-gray-500 truncate">
+        {message.lastMessage}
       </p>
     </div>
-    {group.unread > 0 && (
+    {message.unread > 0 && (
       <span className="bg-indigo-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-        {group.unread}
+        {message.unread}
       </span>
     )}
   </div>
 );
 
-export default UserGroupChat;
+export default User;

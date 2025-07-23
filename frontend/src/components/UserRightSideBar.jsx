@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { FiSearch, FiStar, FiUser, FiImage, FiFile, FiTrash2, FiVolume2 } from "react-icons/fi";
 import { ChatContext } from "../context/ChatContext";
 
-const UserChatSidebar = () => {
+const UserRightSideBar = () => {
     // { currentUser }
       const {sharedMedia} = useContext(ChatContext) 
 
@@ -86,4 +86,4 @@ const UserChatSidebar = () => {
   );
 };
 
-export default UserChatSidebar;
+export default UserRightSideBar;

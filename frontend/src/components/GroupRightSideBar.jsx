@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { FiSearch, FiVolume2, FiStar, FiSettings } from "react-icons/fi";
 
 const GroupRightSideBar = () => {
-  // Mock data - replace with real data from context
+ 
   const participants = [
     { id: 1, name: "Alex Johnson", role: "Admin", online: true },
     { id: 2, name: "Sam Wilson", role: "Member", online: true },

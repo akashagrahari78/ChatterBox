@@ -3,8 +3,8 @@ import { useContext, useState } from "react";
 import { FiPlus, FiLogOut, FiUser,FiMessageSquare, FiUsers } from "react-icons/fi";
 import { ChatContext } from "../context/ChatContext";
 import ChatToggleButton from "./ChatToggleButton";
-import UserMessages from "./UserMessages";
-import UserGroupChat from "./UserGroupChat";
+import UserMessages from "./User";
+import UserGroupChat from "./Groups";
 
 const LeftSidebar = () => {
   const { directMessages, groupChats } = useContext(ChatContext);
@@ -88,7 +88,7 @@ const LeftSidebar = () => {
         </AnimatePresence>
       </div>
 
-      {/* Group Chats Section */}
+      {/* -----------------------------------for groups------------------- */}
       <div className="mt-4 px-4 pb-4">
         <ChatToggleButton
           icon={FiUsers}
