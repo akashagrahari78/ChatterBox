@@ -6,8 +6,8 @@ import SignUp from './pages/Signup'
 import { ToastContainer, toast } from 'react-toastify';
 import LeftSidebar from './components/LeftSidebar'
 import MainChatArea from './components/MainChatArea'
-import RightSidebar from './components/RightSidebar'
-import UserChatSidebar from './components/UserChatSidebar'
+import RightSidebar from './components/GroupRightSideBar'
+import GroupRightSideBar from './components/GroupRightSideBar'
 
 
 const App = () => {
@@ -22,8 +22,8 @@ const App = () => {
         <div className="flex ">
           <LeftSidebar />
           <MainChatArea />
-          {/* <RightSidebar />  */}
-          <UserChatSidebar/>
+          <RightSidebar /> 
+          {/* <GroupRightSideBar/> */}
         </div>
       } />
       </Routes>
