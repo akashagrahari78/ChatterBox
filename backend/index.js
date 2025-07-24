@@ -15,6 +15,10 @@ app.use(cors({
   credentials: true
 }));
 
+
+
+
+
 app.get("/", (req, res)=>{
     res.send("you are in home page")
 
