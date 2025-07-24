@@ -7,7 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import LeftSidebar from './components/LeftSidebar'
 import UserChatRoom from './components/UserChatRoom'
 import GroupRightSideBar from './components/GroupRightSideBar'
-import UserChatSidebar from './components/UserRightSideBar'
+import UserRightSideBar from './components/UserRightSideBar'
 
 
 const App = () => {
@@ -23,7 +23,7 @@ const App = () => {
           <LeftSidebar />
           <UserChatRoom/>
           {/* <GroupRightSideBar/>  */}
-          <UserChatSidebar/>
+          <UserRightSideBar/>
         </div>
       } />
       </Routes>
