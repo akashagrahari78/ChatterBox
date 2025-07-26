@@ -1,18 +1,45 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useContext, useState } from "react";
-import { FiPlus, FiLogOut, FiUser,FiMessageSquare, FiUsers } from "react-icons/fi";
+import { FiPlus, FiLogOut, FiUser, FiMessageSquare, FiUsers } from "react-icons/fi";
 import { ChatContext } from "../context/ChatContext";
+import socket from "../socket"; // <-- Import your socket instance
+
 import ChatToggleButton from "./ChatToggleButton";
 import UserMessages from "./User";
 import UserGroupChat from "./Groups";
 
 const LeftSidebar = () => {
-  const { directMessages, groupChats } = useContext(ChatContext);
+  const {
+    directMessages,
+    groupChats,
+    setSelectedChat,  // <-- Get setter from context
+  } = useContext(ChatContext);
+
   const [activeChat, setActiveChat] = useState("general");
   const [expandedSection, setExpandedSection] = useState({
     dms: true,
     groups: true,
   });
+
+  const currentUserId = "yourLoggedInUserId"; // Replace with actual user id from context or token
+
+  const setActiveChatHandler = (dm) => {
+    setActiveChat(dm.id);
+
+    socket.emit("get-or-create-chat", {
+      user1Id: currentUserId,
+      user2Id: dm.id,
+    });
+
+    socket.once("chat-data", (chat) => {
+      console.log("Opened Chat:", chat);
+      setSelectedChat(chat); // ✅ Update context with the selected chat
+    });
+
+    socket.once("chat-error", (error) => {
+      console.error("Chat error:", error);
+    });
+  };
 
   const toggleSection = (section) => {
     setExpandedSection((prev) => ({ ...prev, [section]: !prev[section] }));
@@ -65,7 +92,6 @@ const LeftSidebar = () => {
           onClick={() => toggleSection("dms")}
         />
 
-        {/* -----------------------------user */}
         <AnimatePresence>
           {expandedSection.dms && (
             <motion.div
@@ -80,7 +106,7 @@ const LeftSidebar = () => {
                   key={dm.id}
                   message={dm}
                   isActive={activeChat === dm.id}
-                  onClick={() => setActiveChat(dm.id)}
+                  onClick={() => setActiveChatHandler(dm)}
                 />
               ))}
             </motion.div>
@@ -88,7 +114,7 @@ const LeftSidebar = () => {
         </AnimatePresence>
       </div>
 
-      {/* -----------------------------------for groups------------------- */}
+      {/* Group Chats Section */}
       <div className="mt-4 px-4 pb-4">
         <ChatToggleButton
           icon={FiUsers}

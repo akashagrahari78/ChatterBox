@@ -3,49 +3,49 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import axios from "axios";
 import { toast } from "react-toastify";
-// import { userContext } from '../context/userContext';
+import { ChatContext } from "../context/ChatContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  //   const {backendUrl, setToken, navigate} = useContext(userContext);
+  const { setToken, navigate} = useContext(ChatContext);
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    // try {
-    //   const response = await axios.post(
-    //     `http://localhost:3000/api/user/login`,
-    //     { email, password },
-    //     {
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //     }
-    //   );
+    try {
+      const response = await axios.post(
+        `http://localhost:3000/api/user/login`,
+        { email, password },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-    //   if(response.data.success){
-    //     setToken(response.data.token);
-    //     localStorage.setItem("token", response.data.token);
-    //     toast.success("Login successful! Redirecting...");
-    //     setTimeout(() => navigate('/'), 1500);
-    //   } else {
-    //      toast.error(response.data.message || "Login failed");
-    //   }
-    // } catch (error) {
-    //   console.error("Login error:", error);
-    //    toast.error(
-    //     error.response?.data?.message ||
-    //     error.message ||
-    //     "Login failed. Please try again."
-    //   );
-    // }
+      if(response.data.success){
+        setToken(response.data.token);
+        localStorage.setItem("token", response.data.token);
+        toast.success("Login successful! Redirecting...");
+        setTimeout(() => navigate('/'), 1500);
+      } else {
+         toast.error(response.data.message || "Login failed");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+       toast.error(
+        error.response?.data?.message ||
+        error.message ||
+        "Login failed. Please try again."
+      );
+    }
   };
 
   return (
     <motion.div
-initial={{ y: 100, opacity: 0 }} 
-animate={{ y: 0, opacity: 1 }}   
-transition={{ duration: 0.5, delay: 0.5, ease: "anticipate" }}
+      initial={{ y: 100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, delay: 0.5, ease: "anticipate" }}
     >
       <div className="min-h-screen flex items-center justify-center bg-white px-4">
         <div className="w-full max-w-md bg-white border border-indigo-300 rounded-2xl p-8 text-indigo-600">

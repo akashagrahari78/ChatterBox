@@ -11,7 +11,6 @@ const messageSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
-
     chat: {
       // refer to the group or individual where the message was sent
       type: mongoose.Schema.Types.ObjectId,

@@ -5,7 +5,7 @@ const connectDb = () => {
     console.log("Database connected....");
   });
 
-  return mongoose.connect(`${process.env.MONGODB_URI}/NovelNest`, {
+  return mongoose.connect(`${process.env.MONGODB_URI}/ChatterBox`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

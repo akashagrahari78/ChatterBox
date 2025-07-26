@@ -2,52 +2,52 @@ import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { motion } from "framer-motion";
-// import { userContext } from "../context/userContext";
 import { toast } from "react-toastify";
+import { ChatContext } from "../context/ChatContext";
 
 const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  //   const { setToken, navigate} = useContext(userContext)
+  const { setToken, navigate} = useContext(ChatContext)
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    //   try {
-    //     const response = await axios.post(
-    //       `http://localhost:3000/api/user/register`,
-    //       { name, email, password },
-    //       {
-    //         headers: {
-    //           "Content-Type": "application/json",
-    //         },
-    //       }
-    //     );
+      try {
+        const response = await axios.post(
+          `http://localhost:3000/api/user/register`,
+          { name, email, password },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-    //     console.log(response.data);
-    //        if(response.data.success){
-    //       setToken(response.data.token);
-    //       localStorage.setItem("token", response.data.token);
-    //       toast.success("Registration successful!");
-    //       setTimeout(()=> navigate('/login'), 1000)
-    //     } else {
-    //       toast.error(response.data.message );
-    //     }
-    //   } catch (error) {
-    //     console.log("Full error:", error);
+        console.log(response.data);
+           if(response.data.success){
+          setToken(response.data.token);
+          localStorage.setItem("token", response.data.token);
+          toast.success("Registration successful!");
+          setTimeout(()=> navigate('/login'), 1000)
+        } else {
+          toast.error(response.data.message );
+        }
+      } catch (error) {
+        console.log("Full error:", error);
 
-    //     if (error.response) {
-    //       // Server responded with error status
-    //       const errorMessage = error.response.data?.message || "Registration failed";
-    //       toast.error(errorMessage);  // This will show "User already exists"
-    //     } else if (error.request) {
-    //       // Request was made but no response
-    //       toast.error("No response from server");
-    //     } else {
-    //       // Other errors
-    //       toast.error("Registration error: " + error.message);
-    //     }
-    //   }
+        if (error.response) {
+          // Server responded with error status
+          const errorMessage = error.response.data?.message || "Registration failed";
+          toast.error(errorMessage);  // This will show "User already exists"
+        } else if (error.request) {
+          // Request was made but no response
+          toast.error("No response from server");
+        } else {
+          // Other errors
+          toast.error("Registration error: " + error.message);
+        }
+      }
   };
 
   return (

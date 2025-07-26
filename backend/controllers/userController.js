@@ -4,6 +4,7 @@ const userModel = require("../models/UserModel")
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
+const UserModel = require("../models/UserModel");
 require("dotenv").config();
 
 
@@ -85,11 +86,27 @@ const userRegister = async (req, res) => {
     );
     return res.status(201).json({ success: true, token });
   } catch (error) {
-    console.log(error);
+    console.log("Error is :", error);
     return res
       .status(500)
       .json({ success: false, message: "Internal server error" });
   }
 };
 
+// const  getUserForSidebar = async (req, res) => {
+//   try {
+//     const userId = req.user.userId
+//     const filteredUsers = await UserModel.find({_id: {$ne: userId}}).select("-password")
+
+//     //count no of messages not seen
+//     const unseenMessages = {}
+//     const promises = filteredUsers.map(async(user)=>{
+//       const messages = await userMessageModel.find({sender: user._id, seenBy: userId, })
+//     })
+//   } catch (error) {
+    
+//   }
+// }
+
+ 
 module.exports = {userLogin, userRegister}
