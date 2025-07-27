@@ -1,27 +1,43 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useContext, useRef, useState } from "react";
+import { useContext, useRef, useState,useEffect } from "react";
 import { FiPaperclip, FiSmile, FiMoreVertical, FiSend, FiX } from "react-icons/fi";
 import { ChatContext } from "../context/ChatContext";
+import socket from "../socket";
+import { GetUserIdFromToken } from "../utils/GetUserIdFromToken";
 
 const UserChatRoom = ({ activeChat }) => {
-  const { messages, sendMessage } = useContext(ChatContext);
+  const { messages, sendMessage,setChatMessages, selectedChat } = useContext(ChatContext);
   const [message, setMessage] = useState("");
   const [attachment, setAttachment] = useState(null);
   const fileInputRef = useRef(null);
   const chatContainerRef = useRef(null);
 
+  // const handleSend = () => {
+  //   if (message.trim() || attachment) {
+  //     sendMessage({
+  //       text: message,
+  //       attachment,
+  //       isMe: true,
+  //       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+  //     });
+  //     setMessage("");
+  //     setAttachment(null);
+  //   }
+  // };
+
   const handleSend = () => {
-    if (message.trim() || attachment) {
-      sendMessage({
-        text: message,
-        attachment,
-        isMe: true,
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      });
-      setMessage("");
-      setAttachment(null);
-    }
+  if (!message.trim() && !attachment) return;
+  const newMsg = {
+    chatId: selectedChat._id,
+    senderId: GetUserIdFromToken(),
+    text: message.trim(),
+    attachment: null, // We'll handle files later
   };
+
+  socket.emit("send-message", newMsg);
+  setMessage("");
+  setAttachment(null);
+};
 
   const handleKeyPress = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -41,6 +57,17 @@ const UserChatRoom = ({ activeChat }) => {
     setAttachment(null);
     fileInputRef.current.value = "";
   };
+
+  useEffect(() => {
+  socket.on("new-message", (msg) => {
+     console.log("Message received:", msg);
+    setChatMessages((prev) => [...prev, msg]);
+  });
+
+  return () => {
+    socket.off("new-message");
+  };
+}, []);
 
   return (
     <div className="flex-1 flex flex-col bg-white" ref={chatContainerRef}>
@@ -118,7 +145,7 @@ const UserChatRoom = ({ activeChat }) => {
         </div>
       )}
 
-      {/* Message Input - Now properly constrained */}
+      {/* Message Input -  */}
       <div className="sticky bottom-0 bg-white border-t border-gray-200 p-4">
         <div className="mx-auto max-w-3xl"> {/* Constrains width */}
           <div className="flex items-center bg-gray-50 rounded-full px-4">

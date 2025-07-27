@@ -2,11 +2,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useContext, useState } from "react";
 import { FiPlus, FiLogOut, FiUser, FiMessageSquare, FiUsers } from "react-icons/fi";
 import { ChatContext } from "../context/ChatContext";
-import socket from "../socket"; // <-- Import your socket instance
+import socket from "../socket"; 
 
 import ChatToggleButton from "./ChatToggleButton";
 import UserMessages from "./User";
 import UserGroupChat from "./Groups";
+import { GetUserIdFromToken } from "../utils/GetUserIdFromToken";
 
 const LeftSidebar = () => {
   const {
@@ -21,7 +22,7 @@ const LeftSidebar = () => {
     groups: true,
   });
 
-  const currentUserId = "yourLoggedInUserId"; // Replace with actual user id from context or token
+  const currentUserId = GetUserIdFromToken()
 
   const setActiveChatHandler = (dm) => {
     setActiveChat(dm.id);
@@ -29,17 +30,19 @@ const LeftSidebar = () => {
     socket.emit("get-or-create-chat", {
       user1Id: currentUserId,
       user2Id: dm.id,
-    });
+    })
 
     socket.once("chat-data", (chat) => {
       console.log("Opened Chat:", chat);
-      setSelectedChat(chat); // ✅ Update context with the selected chat
-    });
+      setSelectedChat(chat); //Update context with the selected chat
+    })
 
     socket.once("chat-error", (error) => {
       console.error("Chat error:", error);
     });
   };
+
+  
 
   const toggleSection = (section) => {
     setExpandedSection((prev) => ({ ...prev, [section]: !prev[section] }));
@@ -122,7 +125,7 @@ const LeftSidebar = () => {
           isExpanded={expandedSection.groups}
           onClick={() => toggleSection("groups")}
         />
-
+        
         <AnimatePresence>
           {expandedSection.groups && (
             <motion.div

@@ -5,18 +5,18 @@ export const ChatContext = createContext();
 export const ChatContextProvider = (props) => {
   const directMessages = [
     {
-      id: "1",
+      id: "64c1f67a4f9a9c0012d13e41",
       name: "Alex Johnson",
       lastMessage: "Hey, how are you?",
       unread: 2,
     },
-    { id: "2", name: "Sam Wilson", lastMessage: "Meeting at 3 PM", unread: 0 },
-    { id: "3", name: "Sam Wilson", lastMessage: "Meeting at 3 PM", unread: 0 },
-    { id: "4", name: "Sam Wilson", lastMessage: "Meeting at 3 PM", unread: 0 },
-    { id: "5", name: "Sam Wilson", lastMessage: "Meeting at 3 PM", unread: 0 },
-    { id: "6", name: "Sam Wilson", lastMessage: "Meeting at 3 PM", unread: 0 },
-    { id: "7", name: "Sam Wilson", lastMessage: "Meeting at 3 PM", unread: 0 },
-    { id: "8", name: "Sam Wilson", lastMessage: "Meeting at 3 PM", unread: 0 },
+    { id: "64c1f67a4f9a9c0012d13e42", name: "Sam Wilson", lastMessage: "Meeting at 3 PM", unread: 0 },
+    { id: "64c1f67a4f9a9c0012d13e43", name: "Sam Wilson", lastMessage: "Meeting at 3 PM", unread: 0 },
+    { id: "64c1f67a4f9a9c0012d13e44", name: "Sam Wilson", lastMessage: "Meeting at 3 PM", unread: 0 },
+    { id: "64c1f67a4f9a9c0012d13e45", name: "Sam Wilson", lastMessage: "Meeting at 3 PM", unread: 0 },
+    { id: "64c1f67a4f9a9c0012d13e46", name: "Sam Wilson", lastMessage: "Meeting at 3 PM", unread: 0 },
+    { id: "64c1f67a4f9a9c0012d13e47", name: "Sam Wilson", lastMessage: "Meeting at 3 PM", unread: 0 },
+    { id: "64c1f67a4f9a9c0012d13e48", name: "Sam Wilson", lastMessage: "Meeting at 3 PM", unread: 0 },
   ];
 
   const groupChats = [
@@ -120,8 +120,8 @@ export const ChatContextProvider = (props) => {
   const [selectedChat, setSelectedChat] = useState(null); // stores full chat object
   const [chatMessages, setChatMessages] = useState([]); // stores messages for selected chat
 
-  const navigate  = useNavigate()
-const value = {
+ const navigate  = useNavigate()
+ const value = {
   directMessages,
   groupChats,
   messages,

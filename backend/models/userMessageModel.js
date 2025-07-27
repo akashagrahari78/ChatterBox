@@ -16,7 +16,7 @@ const messageSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Chat",
     },
-    seenBy: [
+    seenBy: [ //it is received by how many users
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",

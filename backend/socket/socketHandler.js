@@ -34,14 +34,14 @@ module.exports = async (io, socket) => {
     }
   });
 
- 
+//  -------------for getting chat messages---------------------
  socket.on('get-chat-messages', async ({ chatId }) => {
   if (!chatId) {
     return socket.emit('message-error', 'Chat ID is required.');
   }
 
   try {
-    const messages = await Message.find({ chat: chatId })
+    const messages = await messageModel.find({ chat: chatId })
       .populate('sender', 'name email')
       .sort({ createdAt: 1 }); // oldest first
 
@@ -49,7 +49,37 @@ module.exports = async (io, socket) => {
   } catch (err) {
     socket.emit('message-error', err.message);
   }
+})
+
+
+//------------------------------For sending messages-------------------
+socket.on('send-message', async ({ chatId, senderId, text, attachment }) => {
+  if (!chatId || !senderId || (!text && !attachment)) {
+    return socket.emit('message-error', 'Missing chatId, senderId or message content');
+  }
+
+  try {
+    const newMessage = new messageModel({
+      chat: chatId,
+      sender: senderId,
+      content: text,
+      attachment: attachment || null,  
+    });
+
+    await newMessage.save();
+    const populatedMessage = await newMessage.populate('sender', 'name email');
+
+    // Emit back to the sender
+    socket.emit('new-message', populatedMessage);
+
+    // Broadcast to other participants in the chat (optional, if you implement rooms)
+    // socket.to(chatId).emit('new-message', populatedMessage);
+
+  } catch (err) {
+    socket.emit('message-error', err.message);
+  }
 });
+
 
   // Other socket events like send-message, typing, etc. can go here
 };
