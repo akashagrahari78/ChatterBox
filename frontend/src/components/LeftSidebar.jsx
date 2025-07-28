@@ -42,7 +42,6 @@ const LeftSidebar = () => {
     });
   };
 
-  
 
   const toggleSection = (section) => {
     setExpandedSection((prev) => ({ ...prev, [section]: !prev[section] }));

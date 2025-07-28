@@ -63,22 +63,28 @@ socket.on('send-message', async ({ chatId, senderId, text, attachment }) => {
       chat: chatId,
       sender: senderId,
       content: text,
-      attachment: attachment || null,  
+      attachment: attachment || null,
     });
 
     await newMessage.save();
+
     const populatedMessage = await newMessage.populate('sender', 'name email');
 
-    // Emit back to the sender
+    // Send to sender
     socket.emit('new-message', populatedMessage);
 
-    // Broadcast to other participants in the chat (optional, if you implement rooms)
-    // socket.to(chatId).emit('new-message', populatedMessage);
+    // Send to all others in the chat room
+    socket.to(chatId).emit('new-message', populatedMessage);
 
   } catch (err) {
     socket.emit('message-error', err.message);
   }
 });
+
+socket.on("join-chat", (chatId) => {
+  socket.join(chatId);
+});
+
 
 
   // Other socket events like send-message, typing, etc. can go here

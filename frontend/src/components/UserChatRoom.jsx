@@ -31,7 +31,7 @@ const UserChatRoom = ({ activeChat }) => {
     chatId: selectedChat._id,
     senderId: GetUserIdFromToken(),
     text: message.trim(),
-    attachment: null, // We'll handle files later
+    attachment: null, 
   };
 
   socket.emit("send-message", newMsg);
@@ -58,16 +58,25 @@ const UserChatRoom = ({ activeChat }) => {
     fileInputRef.current.value = "";
   };
 
-  useEffect(() => {
-  socket.on("new-message", (msg) => {
-     console.log("Message received:", msg);
+useEffect(() => {
+  if (selectedChat) {
+    socket.emit("join-chat", selectedChat._id);
+  }
+}, [selectedChat]);
+
+useEffect(() => {
+  const handleNewMessage = (msg) => {
+    console.log("Message received:", msg);
     setChatMessages((prev) => [...prev, msg]);
-  });
+  };
+
+  socket.on("new-message", handleNewMessage);
 
   return () => {
-    socket.off("new-message");
+    socket.off("new-message", handleNewMessage);
   };
 }, []);
+
 
   return (
     <div className="flex-1 flex flex-col bg-white" ref={chatContainerRef}>

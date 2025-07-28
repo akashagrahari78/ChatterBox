@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 export const ChatContext = createContext();
 
 export const ChatContextProvider = (props) => {
-  const directMessages = [
+  const directMessages = [  
     {
       id: "64c1f67a4f9a9c0012d13e41",
       name: "Alex Johnson",
