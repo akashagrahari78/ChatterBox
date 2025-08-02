@@ -22,7 +22,8 @@ const LeftSidebar = () => {
     groups: true,
   });
 
-  const currentUserId = GetUserIdFromToken()
+  const currentUserId = GetUserIdFromToken()   
+ 
 
   const setActiveChatHandler = (dm) => {
     setActiveChat(dm.id);

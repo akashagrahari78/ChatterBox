@@ -93,6 +93,25 @@ const userRegister = async (req, res) => {
   }
 };
 
+const getUserById = async (req, res) => {
+  const { id } = req.params;
+  console.log("user Id is : ", id);
+
+  try {
+    const user = await userModel.findById(id).select("-password"); // exclude password
+    // console.log("current user is : ", user);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json(user);
+  } catch (err) {
+    console.error("Error fetching user:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+
 // const  getUserForSidebar = async (req, res) => {
 //   try {
 //     const userId = req.user.userId
@@ -109,4 +128,4 @@ const userRegister = async (req, res) => {
 // }
 
  
-module.exports = {userLogin, userRegister}
+module.exports = {userLogin, userRegister, getUserById}

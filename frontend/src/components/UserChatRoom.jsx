@@ -6,7 +6,7 @@ import socket from "../socket";
 import { GetUserIdFromToken } from "../utils/GetUserIdFromToken";
 
 const UserChatRoom = ({ activeChat }) => {
-  const { messages, sendMessage,setChatMessages, selectedChat } = useContext(ChatContext);
+  const { messages, sendMessage,user, setChatMessages, selectedChat } = useContext(ChatContext);
   const [message, setMessage] = useState("");
   const [attachment, setAttachment] = useState(null);
   const fileInputRef = useRef(null);
@@ -20,7 +20,7 @@ const UserChatRoom = ({ activeChat }) => {
   //       isMe: true,
   //       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
   //     });
-  //     setMessage("");
+      // setMessage("");
   //     setAttachment(null);
   //   }
   // };
@@ -44,7 +44,7 @@ const UserChatRoom = ({ activeChat }) => {
       e.preventDefault();
       handleSend();
     }
-  };
+  }
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -69,13 +69,18 @@ useEffect(() => {
     console.log("Message received:", msg);
     setChatMessages((prev) => [...prev, msg]);
   };
-
   socket.on("new-message", handleNewMessage);
 
   return () => {
     socket.off("new-message", handleNewMessage);
   };
 }, []);
+
+useEffect(() => {
+  if (user) {
+    socket.emit("setup", user);  
+  }
+}, [user]);
 
 
   return (

@@ -1,6 +1,10 @@
 import { createContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 export const ChatContext = createContext();
+import axios from "axios";
+import { useEffect } from "react";
+import { GetUserIdFromToken } from "../utils/GetUserIdFromToken";
+
 
 export const ChatContextProvider = (props) => {
   const directMessages = [  
@@ -110,6 +114,7 @@ export const ChatContextProvider = (props) => {
     },
   ];
 
+
   const [token, setToken] = useState(localStorage.getItem("token") || "");
 
   const sharedMedia = [
@@ -119,6 +124,50 @@ export const ChatContextProvider = (props) => {
 
   const [selectedChat, setSelectedChat] = useState(null); // stores full chat object
   const [chatMessages, setChatMessages] = useState([]); // stores messages for selected chat
+  const [user, setUser] = useState([]);
+
+
+   const fetchChatIfMissing = async () => {
+    if (!selectedChat && someStoredChatId) {
+      try {
+        const { data } = await axios.get(`/api/chats/${someStoredChatId}`);
+        setSelectedChat(data);
+      } catch (err) {
+        console.error("Failed to fetch chat", err);
+      }
+    }
+  };
+
+
+  // ----------------------------------api call for fetching user info----------------
+const fetchUser = async () => {
+  const currentUserId = GetUserIdFromToken();
+  if (!currentUserId) {
+    console.error("No user ID found in token.");
+    return;
+  }
+
+  try {
+    const res = await axios.get(
+      `http://localhost:3000/api/user/${currentUserId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    setUser(res.data);
+  } catch (err) {
+    console.error("Failed to fetch user", err);
+  }
+};
+
+
+useEffect(() => {
+   fetchUser();
+  //  fetchChatIfMissing();
+}, []);
 
  const navigate  = useNavigate()
  const value = {
@@ -132,7 +181,9 @@ export const ChatContextProvider = (props) => {
   selectedChat,
   setSelectedChat,
   chatMessages,
-  setChatMessages
+  setChatMessages,
+  user, 
+  setUser
 };
 
 
