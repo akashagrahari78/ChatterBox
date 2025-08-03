@@ -14,4 +14,6 @@
 
 
 -----------------------backend------------
-1. fetchChatIfMissing--> for implement this function I need the currentChatId and I will pass this as params on api call and get the chat and now I can store that ChatId as "selectedChat" and use it further.
+1. fetchChatIfMissing--> for implement this function I need the currentChatId and I will pass this as params on api call and get the chat and now I can store that Chat as "selectedChat" and use it further.
+
+2. fetch all the real users and their messages from the database and use them in context api

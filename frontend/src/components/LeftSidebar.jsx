@@ -13,18 +13,17 @@ const LeftSidebar = () => {
   const {
     directMessages,
     groupChats,
-    setSelectedChat,  // <-- Get setter from context
+    setSelectedChat, 
+    setSelectedChatId // <-- Get setter from context
   } = useContext(ChatContext);
+    const currentUserId = GetUserIdFromToken() 
 
   const [activeChat, setActiveChat] = useState("general");
   const [expandedSection, setExpandedSection] = useState({
     dms: true,
     groups: true,
   });
-
-  const currentUserId = GetUserIdFromToken()   
- 
-
+  
   const setActiveChatHandler = (dm) => {
     setActiveChat(dm.id);
 
@@ -34,8 +33,9 @@ const LeftSidebar = () => {
     })
 
     socket.once("chat-data", (chat) => {
-      console.log("Opened Chat:", chat);
-      setSelectedChat(chat); //Update context with the selected chat
+      // console.log("Opened Chat is::", chat, chat._id);
+      setSelectedChatId(chat._id);
+      setSelectedChat(chat) 
     })
 
     socket.once("chat-error", (error) => {

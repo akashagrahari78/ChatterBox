@@ -5,22 +5,56 @@ import axios from "axios";
 import { useEffect } from "react";
 import { GetUserIdFromToken } from "../utils/GetUserIdFromToken";
 
-
 export const ChatContextProvider = (props) => {
-  const directMessages = [  
+  const directMessages = [
     {
       id: "64c1f67a4f9a9c0012d13e41",
       name: "Alex Johnson",
       lastMessage: "Hey, how are you?",
       unread: 2,
     },
-    { id: "64c1f67a4f9a9c0012d13e42", name: "Sam Wilson", lastMessage: "Meeting at 3 PM", unread: 0 },
-    { id: "64c1f67a4f9a9c0012d13e43", name: "Sam Wilson", lastMessage: "Meeting at 3 PM", unread: 0 },
-    { id: "64c1f67a4f9a9c0012d13e44", name: "Sam Wilson", lastMessage: "Meeting at 3 PM", unread: 0 },
-    { id: "64c1f67a4f9a9c0012d13e45", name: "Sam Wilson", lastMessage: "Meeting at 3 PM", unread: 0 },
-    { id: "64c1f67a4f9a9c0012d13e46", name: "Sam Wilson", lastMessage: "Meeting at 3 PM", unread: 0 },
-    { id: "64c1f67a4f9a9c0012d13e47", name: "Sam Wilson", lastMessage: "Meeting at 3 PM", unread: 0 },
-    { id: "64c1f67a4f9a9c0012d13e48", name: "Sam Wilson", lastMessage: "Meeting at 3 PM", unread: 0 },
+    {
+      id: "64c1f67a4f9a9c0012d13e42",
+      name: "Sam Wilson",
+      lastMessage: "Meeting at 3 PM",
+      unread: 0,
+    },
+    {
+      id: "64c1f67a4f9a9c0012d13e43",
+      name: "Sam Wilson",
+      lastMessage: "Meeting at 3 PM",
+      unread: 0,
+    },
+    {
+      id: "64c1f67a4f9a9c0012d13e44",
+      name: "Sam Wilson",
+      lastMessage: "Meeting at 3 PM",
+      unread: 0,
+    },
+    {
+      id: "64c1f67a4f9a9c0012d13e45",
+      name: "Sam Wilson",
+      lastMessage: "Meeting at 3 PM",
+      unread: 0,
+    },
+    {
+      id: "64c1f67a4f9a9c0012d13e46",
+      name: "Sam Wilson",
+      lastMessage: "Meeting at 3 PM",
+      unread: 0,
+    },
+    {
+      id: "64c1f67a4f9a9c0012d13e47",
+      name: "Sam Wilson",
+      lastMessage: "Meeting at 3 PM",
+      unread: 0,
+    },
+    {
+      id: "64c1f67a4f9a9c0012d13e48",
+      name: "Sam Wilson",
+      lastMessage: "Meeting at 3 PM",
+      unread: 0,
+    },
   ];
 
   const groupChats = [
@@ -114,7 +148,6 @@ export const ChatContextProvider = (props) => {
     },
   ];
 
-
   const [token, setToken] = useState(localStorage.getItem("token") || "");
 
   const sharedMedia = [
@@ -122,70 +155,80 @@ export const ChatContextProvider = (props) => {
     { id: 2, type: "file", name: "document.pdf", date: "Yesterday" },
   ];
 
+  const [selectedChatId, setSelectedChatId] = useState("");
   const [selectedChat, setSelectedChat] = useState(null); // stores full chat object
   const [chatMessages, setChatMessages] = useState([]); // stores messages for selected chat
   const [user, setUser] = useState([]);
 
-
-   const fetchChatIfMissing = async () => {
-    if (!selectedChat && someStoredChatId) {
+  const fetchChatIfMissing = async () => {
+    if (selectedChatId) {
       try {
-        const { data } = await axios.get(`/api/chats/${someStoredChatId}`);
+        const { data } = await axios.get(
+          `http://localhost:3000/api/chats/${selectedChatId}`
+        );
+        console.log("Chat data is :", data);
         setSelectedChat(data);
       } catch (err) {
         console.error("Failed to fetch chat", err);
       }
     }
-  };
-
+  }
 
   // ----------------------------------api call for fetching user info----------------
-const fetchUser = async () => {
-  const currentUserId = GetUserIdFromToken();
-  if (!currentUserId) {
-    console.error("No user ID found in token.");
-    return;
-  }
+  const fetchUser = async () => {
+    const currentUserId = GetUserIdFromToken();
+    if (!currentUserId) {
+      console.error("No user ID found in token.");
+      return;
+    }
 
-  try {
-    const res = await axios.get(
-      `http://localhost:3000/api/user/${currentUserId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    setUser(res.data);
-  } catch (err) {
-    console.error("Failed to fetch user", err);
-  }
-};
+    try {
+      const res = await axios.get(
+        `http://localhost:3000/api/user/${currentUserId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setUser(res.data);
+    } catch (err) {
+      console.error("Failed to fetch user", err);
+    }
+  };
 
+  useEffect(() => {
+    fetchUser();
+    //  fetchChatIfMissing();
+  }, []);
 
-useEffect(() => {
-   fetchUser();
-  //  fetchChatIfMissing();
-}, []);
+  useEffect(() => {
+    if (selectedChatId) {
+      fetchChatIfMissing();
+      console.log("selectedChat from context is : ", selectedChat);
+      console.log("chat id is :", selectedChatId);
+    }
+  }, [selectedChatId]); // runs only when selectedChatId changes
 
- const navigate  = useNavigate()
- const value = {
-  directMessages,
-  groupChats,
-  messages,
-  navigate,
-  sharedMedia,
-  token,
-  setToken,
-  selectedChat,
-  setSelectedChat,
-  chatMessages,
-  setChatMessages,
-  user, 
-  setUser
-};
-
+  const navigate = useNavigate();
+  const value = {
+    directMessages,
+    groupChats,
+    messages,
+    navigate,
+    sharedMedia,
+    token,
+    setToken,
+    selectedChat,
+    setSelectedChat,
+    chatMessages,
+    setChatMessages,
+    selectedChatId,
+    setSelectedChatId,
+    user,
+    setUser,
+  };
 
   return (
     <ChatContext.Provider value={value}>{props.children}</ChatContext.Provider>

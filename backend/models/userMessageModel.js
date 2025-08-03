@@ -8,22 +8,24 @@ const messageSchema = mongoose.Schema(
     },
     content: {
       type: String,
-      required: true,
-      trim: true,
+      required: function () {
+        return !this.attachment;
+      },
     },
     chat: {
       // refer to the group or individual where the message was sent
       type: mongoose.Schema.Types.ObjectId,
       ref: "Chat",
     },
-    seenBy: [ //it is received by how many users
+    seenBy: [
+      //it is received by how many users
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
       },
     ],
   },
-  { timeStamps: true }
+  { timestamps: true }
 );
 
-mongoose.exports = mongoose.model("Message", messageSchema);
+module.exports = mongoose.model("Message", messageSchema);

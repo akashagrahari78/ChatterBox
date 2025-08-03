@@ -4,7 +4,8 @@ const http = require("http");
 const mongoose = require("mongoose");
 const { Server } = require("socket.io");
 const connectDb = require("./config/mongodb.js");
-const userRouter = require("./routes/userRoute");
+const userRouter = require("./routes/userRoute.js");
+const chatRouter = require("./routes/chatRoute.js")
 const socketHandler = require('./socket/socketHandler');
 require("dotenv").config();
 
@@ -29,6 +30,7 @@ app.use(
 
 //routes
 app.use("/api/user", userRouter);
+app.use("/api/chats", chatRouter);
 
 //socket.io connection
 const io = new Server(server, {

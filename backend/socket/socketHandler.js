@@ -76,13 +76,14 @@ socket.on('send-message', async ({ chatId, senderId, text, attachment }) => {
     });
 
     await newMessage.save();
-    const populatedMessage = await newMessage.populate('sender', 'name email');
+    const populatedMessage = await newMessage.populate('sender', 'name email').populate("chat");
 
     // Emit to sender
     socket.emit('new-message', populatedMessage);
 
     // Get users in the chat
     const chat = await userChatModel.findById(chatId).populate("participants", "_id");
+    
 
     chat.participants.forEach((user) => {
       if (user._id.toString() !== senderId.toString()) {
